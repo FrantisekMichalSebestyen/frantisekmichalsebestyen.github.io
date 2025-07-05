@@ -1,103 +1,90 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import { useSprings, animated, to as interpolate } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+
+const cards = [
+  'https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg',
+]
+
+// These two are just helpers, they curate spring data, values that are later being interpolated into css
+const to = (i: number) => ({
+  x: 0,
+  y: i * -4,
+  scale: 1,
+  rot: -10 + Math.random() * 20,
+  delay: i * 100,
+})
+const from = () => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
+// This is being used down there in the view, it interpolates rotation and scale into a css transform
+const trans = (r: number, s: number) =>
+  `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+
+function Deck() {
+  const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
+  const [props, api] = useSprings(cards.length, i => ({
+    ...to(i),
+    from: from(),
+  })) // Create a bunch of springs using the helpers above
+  // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
+  const bind = useDrag(({ args: [index], active, movement: [mx], direction: [xDir], velocity: [vx] }) => {
+    const trigger = vx > 0.2 // If you flick hard enough it should trigger the card to fly out
+    if (!active && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+    api.start(i => {
+      if (index !== i) return // We're only interested in changing spring-data for the current spring
+      const isGone = gone.has(index)
+      const x = isGone ? (200 + window.innerWidth) * xDir : active ? mx : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
+      const rot = mx / 100 + (isGone ? xDir * 10 * vx : 0) // How much the card tilts, flicking it harder makes it rotate faster
+      const scale = active ? 1.1 : 1 // Active cards lift up a bit
+      return {
+        x,
+        rot,
+        scale,
+        delay: undefined,
+        config: { friction: 50, tension: active ? 800 : isGone ? 200 : 500 },
+      }
+    })
+    if (!active && gone.size === cards.length)
+      setTimeout(() => {
+        gone.clear()
+        api.start(i => to(i))
+      }, 600)
+  })
+  // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {props.map(({ x, y, rot, scale }, i) => (
+        <animated.div 
+          className="absolute w-[300px] h-[200px] will-change-transform flex items-center justify-center touch-none" 
+          key={i} 
+          style={{ x, y }}
+        >
+          {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
+          <animated.div
+            {...bind(i)}
+            className="touch-none bg-white bg-auto bg-no-repeat bg-center w-[45vh] max-w-[300px] h-[85vh] max-h-[570px] will-change-transform rounded-[10px] shadow-[0_12.5px_100px_-10px_rgba(50,50,73,0.4),0_10px_10px_-10px_rgba(50,50,73,0.3)]"
+            style={{
+              transform: interpolate([rot, scale], trans),
+              backgroundImage: `url(${cards[i]})`,
+              backgroundSize: 'auto 85%',
+            }}
+          />
+        </animated.div>
+      ))}
+    </>
+  )
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+export default function App() {
+  return (
+    <div className="flex fill h-screen items-center justify-center bg-sky-200">
+      <Deck />
     </div>
-  );
+  )
 }
