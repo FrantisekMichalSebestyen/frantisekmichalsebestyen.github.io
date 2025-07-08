@@ -1,10 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  reactStrictMode: true,
-  basePath: '', // Important: no basePath for username.github.io
+  output: 'export',
+  basePath: '',
   assetPrefix: './',
-  // basePath: '/frantisekmichalsebestyen.github.io', // Uncomment if you want to use basePath
-}
+  images: {
+    unoptimized: true,
+  },
+};
+
 
 export default nextConfig
