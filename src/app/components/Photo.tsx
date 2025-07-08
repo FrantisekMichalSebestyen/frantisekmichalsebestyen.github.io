@@ -14,7 +14,7 @@ const Photo = forwardRef<HTMLDivElement, PhotoProps>(({ src, style, ...props }, 
       style={style}
       {...props}
     >
-      <img
+      <Image
         src={src}
         alt=""
         width={400}
