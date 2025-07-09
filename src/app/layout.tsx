@@ -1,19 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Special_Elite  } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-
-
-const specialElite = Special_Elite({
-  variable: "--font-special-elite",
-  subsets: ["latin"],
-  weight: "400"
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${specialElite.variable} antialiased`}
+        className={` antialiased`}
       >
         {children}
       </body>
