@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manufacturing+Consent&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Content&display=swap");
+
 @import "tailwindcss";
 
 :root {
@@ -6,11 +9,12 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-special-elite);
+  --font-typewriter: "Special Elite";
+  --font-gothic: "Manufacturing Consent";
+  --font-content: "Content"
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,5 +27,4 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Special Elite";
 }
