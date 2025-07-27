@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useSprings, animated, to as interpolate } from '@react-spring/web'
 import { useDrag } from '@use-gesture/react'
-import Photo from '@/app/components/Photo'
-import Card from '@/app/components/Card'
+import Photo from '@/components/Photo'
+import Card from '@/components/Card'
 
 // Data: type can be 'photo' or 'card'.
 const items = [
