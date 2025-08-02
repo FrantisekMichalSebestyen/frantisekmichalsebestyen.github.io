@@ -13,10 +13,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="antialiased"
-      >
-        {children}
+      <body className="antialiased">
+        <div className="w-full text-lg text-neutral-950 relative min-h-screen items-center justify-center bg-gradient-to-b from-slate-50 to-green-50 overflow-none font-content">
+          <div className="top-10 inset-x-0 absolute flex items-center justify-center gap-4 text-xl font-extralight lg:top-5 lg:right-4 lg:left-auto">
+            <button>About</button>
+            <button>Portfolio</button>
+          </div>
+          <div className="hidden lg:block fixed text-4ßxl left-4 right-auto top-2">
+            <button className="transition-all text-5xl font-gothic text-shadow-sm text-blue-400 hover:text-red-400 pb-4">
+              Feri Sebestyén
+            </button>
+          </div>
+          {children}
+        </div>
       </body>
     </html>
   );
