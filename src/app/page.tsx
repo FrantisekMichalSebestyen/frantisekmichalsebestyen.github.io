@@ -1,4 +1,3 @@
-import FloatingImages from "@/components/FloatingImages";
 import { ArrowCircleDownIcon } from "@phosphor-icons/react/ssr";
 import Image from "next/image";
 
