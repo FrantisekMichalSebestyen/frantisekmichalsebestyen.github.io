@@ -2,19 +2,19 @@ import Image from "next/image";
 export const dynamic = 'force-static'
 
 async function getSpotifyToken() {
-  const { NUXT_PUBLIC_SPOTIFY_CLIENT_ID, NUXT_PUBLIC_SPOTIFY_SECRET, NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN } =
+  const { NEXT_PUBLIC_SPOTIFY_CLIENT_ID, NEXT_PUBLIC_SPOTIFY_SECRET, NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN } =
     process.env;
 
-  if (!NUXT_PUBLIC_SPOTIFY_CLIENT_ID) {
-    throw new Error("Missing NUXT_PUBLIC_SPOTIFY_CLIENT_ID");
+  if (!NEXT_PUBLIC_SPOTIFY_CLIENT_ID) {
+    throw new Error("Missing NEXT_PUBLIC_SPOTIFY_CLIENT_ID");
   }
 
-  if (!NUXT_PUBLIC_SPOTIFY_SECRET) {
-    throw new Error("Missing NUXT_PUBLIC_SPOTIFY_SECRET");
+  if (!NEXT_PUBLIC_SPOTIFY_SECRET) {
+    throw new Error("Missing NEXT_PUBLIC_SPOTIFY_SECRET");
   }
   
-  if (!NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN) {
-    throw new Error("NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN");
+  if (!NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN) {
+    throw new Error("NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN");
   }
 
   const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -22,7 +22,7 @@ async function getSpotifyToken() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=refresh_token&refresh_token=${NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN}&client_id=${NUXT_PUBLIC_SPOTIFY_CLIENT_ID}&client_secret=${NUXT_PUBLIC_SPOTIFY_SECRET}`,
+    body: `grant_type=refresh_token&refresh_token=${NEXT_PUBLIC_SPOTIFY_REFRESH_TOKEN}&client_id=${NEXT_PUBLIC_SPOTIFY_CLIENT_ID}&client_secret=${NEXT_PUBLIC_SPOTIFY_SECRET}`,
   });
 
   if (!response.ok) {
