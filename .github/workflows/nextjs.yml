@@ -78,9 +78,9 @@ jobs:
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
         env:
-          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-          SPOTIFY_SECRET: ${{ secrets.SPOTIFY_SECRET }}
-          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+          NUXT_PUBLIC_SPOTIFY_CLIENT_ID: ${{ secrets.NUXT_PUBLIC_SPOTIFY_CLIENT_ID }}
+          NUXT_PUBLIC_SPOTIFY_SECRET: ${{ secrets.NUXT_PUBLIC_SPOTIFY_SECRET }}
+          NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN: ${{ secrets.NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

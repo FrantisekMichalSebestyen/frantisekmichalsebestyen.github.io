@@ -2,27 +2,27 @@ import Image from "next/image";
 export const dynamic = 'force-static'
 
 async function getSpotifyToken() {
-  const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_REFRESH_TOKEN } =
+  const { NUXT_PUBLIC_SPOTIFY_CLIENT_ID, NUXT_PUBLIC_SPOTIFY_SECRET, NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN } =
     process.env;
 
-  if (!SPOTIFY_CLIENT_ID) {
-    throw new Error("Missing SPOTIFY_CLIENT_ID");
+  if (!NUXT_PUBLIC_SPOTIFY_CLIENT_ID) {
+    throw new Error("Missing NUXT_PUBLIC_SPOTIFY_CLIENT_ID");
   }
 
-  if (!SPOTIFY_SECRET) {
-    throw new Error("Missing SPOTIFY_SECRET");
+  if (!NUXT_PUBLIC_SPOTIFY_SECRET) {
+    throw new Error("Missing NUXT_PUBLIC_SPOTIFY_SECRET");
   }
   
-  if (!SPOTIFY_REFRESH_TOKEN) {
-    throw new Error("SPOTIFY_REFRESH_TOKEN");
+  if (!NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN) {
+    throw new Error("NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN");
   }
-  
+
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=refresh_token&refresh_token=${SPOTIFY_REFRESH_TOKEN}&client_id=${SPOTIFY_CLIENT_ID}&client_secret=${SPOTIFY_SECRET}`,
+    body: `grant_type=refresh_token&refresh_token=${NUXT_PUBLIC_SPOTIFY_REFRESH_TOKEN}&client_id=${NUXT_PUBLIC_SPOTIFY_CLIENT_ID}&client_secret=${NUXT_PUBLIC_SPOTIFY_SECRET}`,
   });
 
   if (!response.ok) {
