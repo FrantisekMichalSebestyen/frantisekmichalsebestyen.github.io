@@ -101,6 +101,7 @@ export default async function Music() {
           What is
           <a
             href={me.external_urls.spotify}
+            target="blank"
             className="text-pink-400 hover:text-purple-700 hover:cursor-pointer"
           >
             {` ${me.display_name} `}
@@ -122,11 +123,12 @@ export default async function Music() {
       <div className="border-2 border-white rounded-lg p-2">
         <h2 className="mt-0">Fav Artists</h2>
         <ul>
-          {topArtists.items.map((item) => (
+          {topArtists.items.sort((a, b) => b.popularity - a.popularity).map((item) => (
             <li key={item.id}>
               <a
                 className="group hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-2 flex items-center gap-2"
                 href={item.external_urls.spotify}
+                target="blank"
               >
                 {item.images?.[0]?.url && (
                   <div className="flex items-center justify-center min-w-32">
@@ -150,11 +152,12 @@ export default async function Music() {
       <div className="border-2 border-white rounded-lg p-2">
         <h2 className="mt-0">Fav Tracks</h2>
         <ul>
-          {topTracks.items.map((item) => (
+          {topTracks.items.sort((a, b) => b.popularity - a.popularity).map((item) => (
             <li key={item.id}>
               <a
                 className="group hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-2 flex items-center gap-2"
                 href={item.external_urls.spotify}
+                target="blank"
               >
                 {item.album.images?.[0]?.url && (
                   <div className="flex items-center justify-center min-w-32">
