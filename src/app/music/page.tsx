@@ -1,12 +1,22 @@
 import Image from "next/image";
+export const dynamic = 'force-static'
+
 async function getSpotifyToken() {
   const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_REFRESH_TOKEN } =
     process.env;
 
-  if (!SPOTIFY_CLIENT_ID || !SPOTIFY_SECRET || !SPOTIFY_REFRESH_TOKEN) {
-    throw new Error("Missing Spotify credentials");
+  if (!SPOTIFY_CLIENT_ID) {
+    throw new Error("Missing SPOTIFY_CLIENT_ID");
   }
 
+  if (!SPOTIFY_SECRET) {
+    throw new Error("Missing SPOTIFY_SECRET");
+  }
+  
+  if (!SPOTIFY_REFRESH_TOKEN) {
+    throw new Error("SPOTIFY_REFRESH_TOKEN");
+  }
+  
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
