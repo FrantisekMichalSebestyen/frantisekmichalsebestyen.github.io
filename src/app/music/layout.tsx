@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-purple-700">
-      <body className="antialiased prose-lg rounded-xl prose-invert xl:prose-2xl flex flex-col max-w-2xl mx-auto font-pixel p-4 gap-4 bg-neutral-900 text-pink-50">
+      <body className="antialiased prose-lg rounded-xl xl:prose-2xl flex flex-col max-w-2xl mx-auto font-pixel p-4 gap-4 bg-neutral-900 text-pink-50">
           {children}
       </body>
     </html>
