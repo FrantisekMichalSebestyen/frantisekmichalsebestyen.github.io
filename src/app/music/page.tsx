@@ -96,7 +96,7 @@ export default async function Music() {
 
   return (
     <>
-      <a href={me.external_urls.spotify}  target="blank" className="group hover:-translate-1 hover:text-pink-400 hover:cursor-pointer hover:bg-neutral-950 hover:border-pink-400 transition-all grid grid-cols-2 gap-4 border-2 border-white rounded-lg p-2 items-center">
+      <a href={me.external_urls.spotify}  target="blank" className="group hover:-translate-1 hover:text-pink-400 hover:cursor-pointer hover:bg-neutral-950 hover:border-pink-400 transition-all grid grid-cols-2 lg:grid-cols-1 gap-4 border-2 border-white rounded-lg p-2 items-center lg:self-start">
         <h1>
           What is
           <span
@@ -106,14 +106,14 @@ export default async function Music() {
           </span>
           listening to?
         </h1>
-        <div>
+        <div className="order-first">
           {me.images?.[0] && (
             <Image
               src={me.images[0].url}
               alt=""
               width={300}
               height={300}
-              className="object-contai rounded-full w-full h-full border-2 border-white group-hover:border-pink-400"
+              className="object-contain rounded-full aspect-square w-full h-full border-2 border-white group-hover:border-pink-400 max-w-40 max-h-40 mx-auto"
             />
           )}
         </div>
