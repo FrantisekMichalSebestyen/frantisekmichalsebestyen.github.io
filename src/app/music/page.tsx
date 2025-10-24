@@ -118,8 +118,8 @@ export default async function Music() {
           )}
         </div>
       </a>
-      <div className="border-2 border-white rounded-lg p-2 max-w-full">
-        <h2 className="m-0">Fav Artists</h2>
+      <article className="border-2 border-white rounded-lg p-2 max-w-full">
+        <h2>Fav Artists</h2>
         <ul>
           {topArtists.items.sort((a, b) => b.popularity - a.popularity).map((artist) => (
             <li key={artist.id}>
@@ -161,9 +161,9 @@ export default async function Music() {
             </li>
           ))}
         </ul>
-      </div>
-      <div className="border-2 border-white rounded-lg p-2">
-        <h2 className="m-0">Fav Tracks</h2>
+      </article>
+      <article className="border-2 border-white rounded-lg p-2">
+        <h2>Fav Tracks</h2>
         <ul>
           {topTracks.items.sort((a, b) => b.popularity - a.popularity).map((item) => (
             <li key={item.id}>
@@ -199,7 +199,7 @@ export default async function Music() {
             </li>
           ))}
         </ul>
-      </div>
+      </article>
     </>
   );
 }

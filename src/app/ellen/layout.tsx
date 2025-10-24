@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="antialiased font-gothic"
+        className="antialiased font-gothic bg-background text-foreground"
       >
         {children}
       </body>
