@@ -1,8 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# František Michal Sebestyén - Portfolio
+
+A modern, interactive portfolio website showcasing web development projects and photography, built with Next.js and featuring 3D animations and interactive photo galleries.
+
+## About
+
+Personal portfolio website for Feri Sebestyén, a Slovakia-based web developer specializing in interaction-heavy Progressive Web Applications (PWAs) and complex admin interfaces.
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org) (with App Router)
+- **UI Library**: [React 19](https://react.dev)
+- **Language**: [TypeScript](https://www.typescriptlang.org)
+- **Styling**: [TailwindCSS 4](https://tailwindcss.com)
+- **3D Graphics**: [Three.js](https://threejs.org)
+- **Animations**: [React Spring](https://www.react-spring.dev)
+- **Icons**: [Phosphor Icons](https://phosphoricons.com)
+- **Deployment**: GitHub Pages
+
+## Features
+
+- Interactive 3D card animations with perspective and rotation effects
+- Photo gallery with gesture controls (drag, pinch, zoom)
+- Responsive design optimized for desktop and mobile
+- Static site generation for optimal performance
+- Multiple themed pages (Portfolio, Music, Ellen)
+- Smooth transitions and animations
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+ (recommended)
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/FrantisekMichalSebestyen/frantisekmichalsebestyen.github.io.git
+
+# Navigate to project directory
+cd frantisekmichalsebestyen.github.io
+
+# Install dependencies
+npm install
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -14,23 +60,79 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The page will auto-update as you edit files. Start by modifying `src/app/(root)/page.tsx`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Building for Production
 
-## Learn More
+Build the static site:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This generates an optimized production build in the `out` directory.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deployment
 
-## Deploy on Vercel
+Deploy to GitHub Pages:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run deploy
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This command builds the site and pushes the `out` directory to the `gh-pages` branch.
+
+## Project Structure
+
+```
+frantisekmichalsebestyen.github.io/
+├── src/
+│   ├── app/              # Next.js App Router pages
+│   │   ├── (root)/       # Main portfolio pages
+│   │   ├── ellen/        # Ellen photo gallery
+│   │   └── music/        # Music page
+│   ├── components/       # Reusable React components
+│   │   ├── Card.tsx
+│   │   ├── Photo.tsx
+│   │   └── PortfolioCard.tsx
+│   └── globals.css       # Global styles
+├── public/               # Static assets (images, icons)
+├── next.config.ts        # Next.js configuration
+├── tailwind.config.ts    # TailwindCSS configuration
+└── package.json          # Project dependencies
+```
+
+## Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server (local preview)
+- `npm run lint` - Run ESLint
+- `npm run deploy` - Deploy to GitHub Pages
+
+## Configuration
+
+The project uses static export mode configured in `next.config.ts`:
+
+```typescript
+{
+  output: 'export',
+  assetPrefix: './',
+  images: {
+    unoptimized: true,
+  }
+}
+```
+
+This configuration ensures compatibility with GitHub Pages hosting.
+
+## License
+
+All rights reserved © František Michal Sebestyén
+
+## Contact
+
+- Website: [frantisekmichalsebestyen.github.io](https://frantisekmichalsebestyen.github.io)
+- GitHub: [@FrantisekMichalSebestyen](https://github.com/FrantisekMichalSebestyen)
