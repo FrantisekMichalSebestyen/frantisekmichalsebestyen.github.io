@@ -1,5 +1,5 @@
 import Image from "next/image";
-export const dynamic = 'force-static'
+export const dynamic = "force-static";
 
 async function getSpotifyToken() {
   const { SPOTIFY_CLIENT_ID, SPOTIFY_SECRET, SPOTIFY_REFRESH_TOKEN } =
@@ -12,7 +12,7 @@ async function getSpotifyToken() {
   if (!SPOTIFY_SECRET) {
     throw new Error("Missing SPOTIFY_SECRET");
   }
-  
+
   if (!SPOTIFY_REFRESH_TOKEN) {
     throw new Error("SPOTIFY_REFRESH_TOKEN");
   }
@@ -49,7 +49,7 @@ async function getMe(token: string): Promise<SpotifyApi.UserObjectPrivate> {
 }
 
 async function getMyTopArtists(
-  token: string
+  token: string,
 ): Promise<SpotifyApi.UsersTopArtistsResponse> {
   const response = await fetch(
     "https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=5",
@@ -57,7 +57,7 @@ async function getMyTopArtists(
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -69,7 +69,7 @@ async function getMyTopArtists(
 }
 
 async function getMyTopTracks(
-  token: string
+  token: string,
 ): Promise<SpotifyApi.UsersTopTracksResponse> {
   const response = await fetch(
     "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=5",
@@ -77,7 +77,7 @@ async function getMyTopTracks(
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -96,12 +96,14 @@ export default async function Music() {
 
   return (
     <>
-      <a href={me.external_urls.spotify}  target="blank" className="group hover:-translate-1 hover:text-pink-400 hover:cursor-pointer hover:bg-neutral-950 hover:border-pink-400 transition-all grid grid-cols-2 lg:grid-cols-1 gap-4 border-2 border-white rounded-lg p-2 items-center lg:self-start">
+      <a
+        href={me.external_urls.spotify}
+        target="blank"
+        className="group hover:-translate-1 hover:text-pink-400 hover:cursor-pointer hover:bg-neutral-950 hover:border-pink-400 transition-all grid grid-cols-2 lg:grid-cols-1 gap-4 border-2 border-white rounded-lg p-2 items-center lg:self-start"
+      >
         <h1>
           What is
-          <span
-            className="text-pink-400 group-hover:text-purple-700 hover:cursor-pointer"
-          >
+          <span className="text-pink-400 group-hover:text-purple-700 hover:cursor-pointer">
             {` ${me.display_name} `}
           </span>
           listening to?
@@ -121,83 +123,104 @@ export default async function Music() {
       <article className="border-2 border-white rounded-lg p-2 max-w-full">
         <h2>Fav Artists</h2>
         <ul>
-          {topArtists.items.sort((a, b) => b.popularity - a.popularity).map((artist) => (
-            <li key={artist.id}>
-              <a
-                className="group hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-3 flex items-center gap-3"
-                href={artist.external_urls.spotify}
-                target="blank"
-              >
-                {artist.images?.[0]?.url && (
-                  <div className="flex items-center justify-center min-w-16">
-                    <Image
-                      width={64}
-                      height={64}
-                      src={artist.images[0]?.url}
-                      alt=""
-                      className="rounded-full w-16 h-16 border-2 border-white group-hover:border-pink-400 "
-                    />
+          {topArtists.items
+            .sort((a, b) => b.popularity - a.popularity)
+            .map((artist) => (
+              <li key={artist.id}>
+                <a
+                  className="group hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-3 flex items-center gap-3"
+                  href={artist.external_urls.spotify}
+                  target="blank"
+                >
+                  {artist.images?.[0]?.url && (
+                    <div className="flex items-center justify-center min-w-16">
+                      <Image
+                        width={64}
+                        height={64}
+                        src={artist.images[0]?.url}
+                        alt=""
+                        className="rounded-full w-16 h-16 border-2 border-white group-hover:border-pink-400 "
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex flex-col self-start text-left grow gap-2 min-w-0">
+                    <span className="text-4xl">{artist.name}</span>
+                    <span className="text-left whitespace-nowrap">
+                      {artist.genres && artist.genres.length > 0 && (
+                        <div className="overflow-hidden min-w-0 text-ellipsis">
+                          <div className="text-pink-400 group-hover:text-purple-700 leading-4 overflow-hidden whitespace-nowrap text-ellipsis">
+                            Genres:{" "}
+                          </div>
+                          {artist.genres.map((genre, index) => (
+                            <span
+                              className="whitespace-nowrap text-ellipsis"
+                              key={index}
+                            >
+                              <span>{genre}</span>
+                              <span>
+                                {index < artist.genres.length - 1 && ", "}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </span>
                   </div>
-                )}
-
-                <div className="flex flex-col self-start text-left grow gap-2 min-w-0">
-                <span className="text-4xl">{artist.name}</span>
-                  <span className="text-left whitespace-nowrap">
-                    {(artist.genres && artist.genres.length > 0) &&
-                    (<div className="overflow-hidden min-w-0 text-ellipsis">
-                      <div className="text-pink-400 group-hover:text-purple-700 leading-4 overflow-hidden whitespace-nowrap text-ellipsis">Genres: </div>
-                        {artist.genres.map((genre, index) => (
-                      <span className="whitespace-nowrap text-ellipsis" key={index}>
-                        <span>{genre}</span>
-                        <span>{index < artist.genres.length - 1 && ', '}</span>
-                      </span>
-                      ))}
-                    </div>)}
+                  <span className="text-6xl text-pink-400 group-hover:text-purple-700 px-2 mb-auto">
+                    {artist.popularity}
                   </span>
-                </div>
-                <span className="text-6xl text-pink-400 group-hover:text-purple-700 px-2 mb-auto">{artist.popularity}</span>
-
-              </a>
-            </li>
-          ))}
+                </a>
+              </li>
+            ))}
         </ul>
       </article>
       <article className="border-2 border-white rounded-lg p-2">
         <h2>Fav Tracks</h2>
         <ul>
-          {topTracks.items.sort((a, b) => b.popularity - a.popularity).map((item) => (
-            <li key={item.id}>
-              <a
-                className="group max-w-full hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-3 flex items-center gap-3"
-                href={item.external_urls.spotify}
-                target="blank"
-              >
-                {item.album.images?.[0]?.url && (
-                  <div className="flex items-center justify-center min-w-16">
-                    <Image
-                      width={64}
-                      height={64}
-                      src={item.album.images[0].url}
-                      alt=""
-                      className="rounded-full w-16 h-16 border-2 border-white group-hover:border-pink-400"
-                    />
+          {topTracks.items
+            .sort((a, b) => b.popularity - a.popularity)
+            .map((item) => (
+              <li key={item.id}>
+                <a
+                  className="group max-w-full hover:text-pink-400 hover:-translate-1 hover:bg-neutral-950 hover:border-pink-400 transition-all border-2 border-white rounded-lg p-3 flex items-center gap-3"
+                  href={item.external_urls.spotify}
+                  target="blank"
+                >
+                  {item.album.images?.[0]?.url && (
+                    <div className="flex items-center justify-center min-w-16">
+                      <Image
+                        width={64}
+                        height={64}
+                        src={item.album.images[0].url}
+                        alt=""
+                        className="rounded-full w-16 h-16 border-2 border-white group-hover:border-pink-400"
+                      />
+                    </div>
+                  )}
+                  <div className="flex flex-col self-start grow gap-2 min-w-0">
+                    <span className="text-ellipsis">
+                      {item.artists &&
+                        item.artists.map((artist, index) => (
+                          <span
+                            key={artist.id}
+                            className="text-2xl text-purple-700"
+                          >
+                            <span>{artist.name} </span>
+                            <span>
+                              {index < item.artists.length - 1 && ", "}
+                            </span>
+                          </span>
+                        ))}
+                    </span>
+                    <span className="text-4xl">{item.name}</span>
                   </div>
-                )}
-                <div className="flex flex-col self-start grow gap-2 min-w-0">
-                  <span className="text-ellipsis">
-                    {item.artists && item.artists.map((artist, index) => (
-                      <span key={artist.id} className="text-2xl text-purple-700">
-                        <span>{artist.name} </span>
-                        <span>{index < item.artists.length - 1 && ', '}</span>
-                      </span>
-                    ))}
+                  <span className="text-6xl text-pink-400 group-hover:text-purple-700 px-2 mb-auto">
+                    {item.popularity}
                   </span>
-                  <span className="text-4xl">{item.name}</span>
-                </div>
-                <span className="text-6xl text-pink-400 group-hover:text-purple-700 px-2 mb-auto">{item.popularity}</span>
-              </a>
-            </li>
-          ))}
+                </a>
+              </li>
+            ))}
         </ul>
       </article>
     </>

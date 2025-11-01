@@ -49,7 +49,6 @@ export default function App() {
         </button>
         <ArrowCircleDownIcon className="drop-shadow-2xl drop-shadow-neutral-950 " />
       </div>
-
     </div>
   );
 }

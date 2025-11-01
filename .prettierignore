@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+public
+.github
+.next
+out
+index.html
+404.html
